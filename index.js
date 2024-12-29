@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 
 const rootRouter = require("./routes/rootRouter.js");
 const User = require("./routes/userRouter.js");
+const WeightRouter = require("./routes/weightRouter.js");
 
 const port = process.env.PORT || 5001;
 
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/api", rootRouter);
 app.use("/api/user", User);
+app.use("/api/weightData", WeightRouter);
 
 // Start the server
 app.listen(port, () => {
