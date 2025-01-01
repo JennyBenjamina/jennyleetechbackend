@@ -3,6 +3,25 @@ const { v4: uuidv4 } = require("uuid");
 const router = express.Router();
 const WeightData = require("../models/WeightData.js");
 
+router.get("/getUserWeightData", async (req, res) => {
+  // access query parameters
+  const userId = req.query;
+  console.log("req.query", userId);
+  try {
+    const weightData = await WeightData.find({ userId: userId.userId });
+    if (weightData) {
+      res.status(200).json(weightData);
+    } else {
+      res.status(200).json("user does not exist");
+    }
+  } catch (error) {
+    console.error("error getting weight data: ", error);
+    res
+      .status(500)
+      .json({ message: "Failed to get weight data for that user" });
+  }
+});
+
 router.get("/getWeightData", async (req, res) => {
   try {
     const weightData = await WeightData.find();

@@ -9,19 +9,24 @@ const rootRouter = require("./routes/rootRouter.js");
 const User = require("./routes/userRouter.js");
 const WeightRouter = require("./routes/weightRouter.js");
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5002;
 
 dotenv.config();
 
+// app.use((req, res, next) => {
+//   console.log("Request received:", req.method, req.url);
+//   const host = req.headers.host;
+//   if (host) {
+//     const subdomain = host.split(".")[0]; // Extract the subdomain
+//     req.subdomain = subdomain;
+//   } else {
+//     req.subdomain = null; // Handle the case where host is undefined
+//   }
+//   next();
+// });
+
 app.use((req, res, next) => {
-  console.log("Request received:", req.method, req.url);
-  const host = req.headers.host;
-  if (host) {
-    const subdomain = host.split(".")[0]; // Extract the subdomain
-    req.subdomain = subdomain;
-  } else {
-    req.subdomain = null; // Handle the case where host is undefined
-  }
+  console.log(`[DEBUG] ${req.method} ${req.originalUrl}`);
   next();
 });
 
