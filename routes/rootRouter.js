@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios");
 const path = require("path");
 const { fileURLToPath } = require("url");
 
@@ -21,6 +22,26 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   res.send(`Hello, ${req.subdomain}`);
+});
+
+// Add a route to fetch the quote of the day
+router.get("/quoteOfTheDay", async (req, res) => {
+  try {
+    const response = await axios.get("https://zenquotes.io/api/today");
+    const quote = response.data[0]; // Extract the first quote object
+
+    // Log only necessary data to avoid circular structure issues
+    console.log("Quote fetched:", quote);
+
+    // Send the quote back to the client
+    res.json(quote);
+  } catch (error) {
+    console.error(
+      "[ERROR] Failed to fetch the quote of the day:",
+      error.message
+    );
+    res.status(500).json({ error: "Failed to fetch the quote of the day" });
+  }
 });
 
 router.post("/addData", async (req, res) => {
